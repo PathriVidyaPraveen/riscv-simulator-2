@@ -196,6 +196,7 @@ enum Instruction {
   kfcvt_d_l, 
   kfcvt_d_lu, 
   kfmv_d_x,
+  kld_simd32
 
   INVALID,
 
