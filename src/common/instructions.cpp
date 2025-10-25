@@ -173,7 +173,9 @@ std::unordered_map<std::string, Instruction> instruction_string_map = {
     {"flw", Instruction::kflw},
     {"fsw", Instruction::kfsw},
     {"fld", Instruction::kfld},
-    {"fsd", Instruction::kfsd}
+    {"fsd", Instruction::kfsd},
+
+{"ld.simd32", Instruction::kld_simd32}
 
 };
 
@@ -219,7 +221,11 @@ static const std::unordered_set<std::string> valid_instructions = {
     "fcvt.s.d", "fcvt.d.s",
     "feq.d", "flt.d", "fle.d",
     "fclass.d", "fcvt.w.d", "fcvt.wu.d", "fcvt.d.w", "fcvt.d.wu",
-    "fcvt.l.d", "fcvt.lu.d", "fmv.x.d", "fcvt.d.l", "fcvt.d.lu", "fmv.d.x"
+    "fcvt.l.d", "fcvt.lu.d", "fmv.x.d", "fcvt.d.l", "fcvt.d.lu", "fmv.d.x",
+
+    // SIMD32
+"ld.simd32"
+
 
 };
 
@@ -235,6 +241,9 @@ static const std::unordered_set<std::string> RTypeInstructions = {
 
     // M Extension RV64
     "mulw", "divw", "divuw", "remw", "remuw",
+
+    // SIMD32 Extension
+    "ld.simd32"
 
 };
 
@@ -431,6 +440,8 @@ std::unordered_map<std::string, I1TypeInstructionEncoding> I1_type_instruction_e
     {"lwu", {0b0000011, 0b110}}, // O_GPR_C_I_LP_GPR_RP,
 
     {"jalr", {0b1100111, 0b000}}, // O_GR_C_I, O_GPR_C_IL
+
+{"ld.simd32", {0b0001011, 0b000, 0b0000000}},
 };
 
 std::unordered_map<std::string, I3TypeInstructionEncoding> I3_type_instruction_encoding_map = {
@@ -814,7 +825,7 @@ std::unordered_map<std::string, std::vector<SyntaxType>> instruction_syntax_map 
 
     {"fmv.x.d", {SyntaxType::O_GPR_C_FPR}}, // x[n][0:63] to f[m][0:63], 64-bit floating-point value from an f (floating-point) register into an x (integer) register without conversion
     {"fmv.d.x", {SyntaxType::O_FPR_C_GPR}}, // f[n][0:63] to x[m][0:63], 64-bit floating-point value from an x (integer) register into an f (floating-point) register without conversion
-
+    {"ld.simd32", {SyntaxType::O_GPR_C_GPR_C_GPR}},
 };
 
 bool isValidInstruction(const std::string &instruction) {
